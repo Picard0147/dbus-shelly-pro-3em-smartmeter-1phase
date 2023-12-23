@@ -151,21 +151,12 @@ class DbusShelly3emService:
        
        #send data to DBus
        self._dbusservice['/Ac/Power'] = meter_data['em:0']['total_act_power'] # positive: consumption, negative: feed into grid
-       self._dbusservice['/Ac/L1/Voltage'] = meter_data['em:0']['a_voltage']
-       self._dbusservice['/Ac/L2/Voltage'] = meter_data['em:0']['b_voltage']
-       self._dbusservice['/Ac/L3/Voltage'] = meter_data['em:0']['c_voltage']
-       self._dbusservice['/Ac/L1/Current'] = meter_data['em:0']['a_current']
-       self._dbusservice['/Ac/L2/Current'] = meter_data['em:0']['b_current']
-       self._dbusservice['/Ac/L3/Current'] = meter_data['em:0']['c_current']
-       self._dbusservice['/Ac/L1/Power'] = meter_data['em:0']['a_act_power']
-       self._dbusservice['/Ac/L2/Power'] = meter_data['em:0']['b_act_power']
-       self._dbusservice['/Ac/L3/Power'] = meter_data['em:0']['c_act_power']
-       self._dbusservice['/Ac/L1/Energy/Forward'] = (meter_data['emdata:0']['a_total_act_energy']/1000)
-       self._dbusservice['/Ac/L2/Energy/Forward'] = (meter_data['emdata:0']['b_total_act_energy']/1000)
-       self._dbusservice['/Ac/L3/Energy/Forward'] = (meter_data['emdata:0']['c_total_act_energy']/1000)
-       self._dbusservice['/Ac/L1/Energy/Reverse'] = (meter_data['emdata:0']['a_total_act_ret_energy']/1000) 
-       self._dbusservice['/Ac/L2/Energy/Reverse'] = (meter_data['emdata:0']['b_total_act_ret_energy']/1000) 
-       self._dbusservice['/Ac/L3/Energy/Reverse'] = (meter_data['emdata:0']['c_total_act_ret_energy']/1000) 
+       self._dbusservice['/Ac/L1/Voltage'] = meter_data['em:0']['c_voltage']
+       self._dbusservice['/Ac/L1/Current'] = meter_data['em:0']['c_current']
+       self._dbusservice['/Ac/L1/Power'] = meter_data['em:0']['c_act_power']
+       self._dbusservice['/Ac/L1/Energy/Forward'] = (meter_data['emdata:0']['c_total_act_energy']/1000)
+       self._dbusservice['/Ac/L1/Energy/Reverse'] = (meter_data['emdata:0']['c_total_act_ret_energy']/1000) 
+
        
        # Old version
        #self._dbusservice['/Ac/Energy/Forward'] = self._dbusservice['/Ac/L1/Energy/Forward'] + self._dbusservice['/Ac/L2/Energy/Forward'] + self._dbusservice['/Ac/L3/Energy/Forward']
@@ -193,8 +184,8 @@ class DbusShelly3emService:
     except (ValueError, requests.exceptions.ConnectionError, requests.exceptions.Timeout, ConnectionError):
        logging.critical('Error getting data from Shelly - check network or Shelly status. Setting power values to 0')
        self._dbusservice['/Ac/L1/Power'] = 0                                       
-       self._dbusservice['/Ac/L2/Power'] = 0                                       
-       self._dbusservice['/Ac/L3/Power'] = 0
+       #self._dbusservice['/Ac/L2/Power'] = 0                                       
+       #self._dbusservice['/Ac/L3/Power'] = 0
        self._dbusservice['/Ac/Power'] = 0
        self._dbusservice['/UpdateIndex'] = (self._dbusservice['/UpdateIndex'] + 1 ) % 256        
     except Exception as e:
@@ -257,20 +248,20 @@ def main():
           '/Ac/Voltage': {'initial': 0, 'textformat': _v},
           
           '/Ac/L1/Voltage': {'initial': 0, 'textformat': _v},
-          '/Ac/L2/Voltage': {'initial': 0, 'textformat': _v},
-          '/Ac/L3/Voltage': {'initial': 0, 'textformat': _v},
+          #'/Ac/L2/Voltage': {'initial': 0, 'textformat': _v},
+          #'/Ac/L3/Voltage': {'initial': 0, 'textformat': _v},
           '/Ac/L1/Current': {'initial': 0, 'textformat': _a},
-          '/Ac/L2/Current': {'initial': 0, 'textformat': _a},
-          '/Ac/L3/Current': {'initial': 0, 'textformat': _a},
+          #'/Ac/L2/Current': {'initial': 0, 'textformat': _a},
+          #'/Ac/L3/Current': {'initial': 0, 'textformat': _a},
           '/Ac/L1/Power': {'initial': 0, 'textformat': _w},
-          '/Ac/L2/Power': {'initial': 0, 'textformat': _w},
-          '/Ac/L3/Power': {'initial': 0, 'textformat': _w},
+          #'/Ac/L2/Power': {'initial': 0, 'textformat': _w},
+          #'/Ac/L3/Power': {'initial': 0, 'textformat': _w},
           '/Ac/L1/Energy/Forward': {'initial': 0, 'textformat': _kwh},
-          '/Ac/L2/Energy/Forward': {'initial': 0, 'textformat': _kwh},
-          '/Ac/L3/Energy/Forward': {'initial': 0, 'textformat': _kwh},
+          #'/Ac/L2/Energy/Forward': {'initial': 0, 'textformat': _kwh},
+          #'/Ac/L3/Energy/Forward': {'initial': 0, 'textformat': _kwh},
           '/Ac/L1/Energy/Reverse': {'initial': 0, 'textformat': _kwh},
-          '/Ac/L2/Energy/Reverse': {'initial': 0, 'textformat': _kwh},
-          '/Ac/L3/Energy/Reverse': {'initial': 0, 'textformat': _kwh},
+          #'/Ac/L2/Energy/Reverse': {'initial': 0, 'textformat': _kwh},
+          #'/Ac/L3/Energy/Reverse': {'initial': 0, 'textformat': _kwh},
         })
      
       logging.info('Connected to dbus, and switching over to gobject.MainLoop() (= event based)')
