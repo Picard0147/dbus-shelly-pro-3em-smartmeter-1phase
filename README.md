@@ -1,4 +1,4 @@
-Drive become obsolete for me because possibilit to add devices (including power meters) using NODERED.
+Drive become obsolete for me because possibility to add devices (including power meters) using NODERED.
 I'll probably not atempt to update this driver.
 
 
