@@ -1,3 +1,7 @@
+Drive become obsolete for me because possibilit to add devices (including power meters) using NODERED.
+I'll probably not atempt to update this driver.
+
+
 Shelly Pro 3EM into Victron DBUS version for single phase setup
 based on: https://github.com/funkmaster86/dbus-shelly-pro-3em-smartmeter
 
